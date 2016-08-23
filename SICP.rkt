@@ -85,3 +85,19 @@
 ; and a large value, 20 9s.  Windows calculator and my sqrt procedure have
 ; very different answers to both.  After rewriting the procedure in the above manner,
 ; the values became much closer together.
+
+; Exercise 1.8
+; Using above methods, approximate cube root with given formula
+; ((x/y^2) + 2y)/3
+(define (improve-y guess x)
+	(/ (+ (/ x (square guess)) (* 2 guess)) 3))
+	
+(define (cube-root-iter prev guess x)
+	(if (good-enough? prev guess x)
+		guess
+	(cube-root-iter guess (improve-y guess x) x)))
+(define (cubeRoot x)
+	(cube-root-iter 0 1 x))
+	
+; Using most of the same functions from above, The cubeRoot procedure works well with small and very large
+; numbers as well.
