@@ -39,18 +39,31 @@
 
 ; Exercise 1.4
 ; Definitions for sqrt-iter and associated functions:
-(define (sqrt-iter guess x)
-	(if (good-enough? guess x)
-	    guess
-	    (sqrt-iter (improve guess x) x)))
-(define (average a b)
-	(/ (+ a b) 2))
+;(define (sqrt-iter guess x)
+;	(if (good-enough? guess x)
+;	    guess
+;	    (sqrt-iter (improve guess x) x)))
+;(define (average a b)
+;	(/ (+ a b) 2))
+;(define (improve guess x)
+;	(average guess (/ x guess)))
+;(define (good-enough? guess x)
+;	(< (abs (- (square guess) x)) .001))
+;(define (sqrt x)
+;	(sqrt-iter 1 x))
+
+
+(define (sqrt-iter prev guess x)
+	(if (good-enough? prev guess) guess
+		(sqrt-iter guess (improve guess x) x)))
 (define (improve guess x)
 	(average guess (/ x guess)))
-(define (good-enough? guess x)
-	(< (abs (- (square guess) x)) .001))
+(define (average a b)
+	(/ (+ a b) 2))
+(define (good-enough? oldGuess newGuess)
+	(< (abs (- newGuess oldGuess)) (* newGuess .0000000000001)))
 (define (sqrt x)
-	(sqrt-iter 1 x))
+	(sqrt-iter 0 1 x))
 
 (define (new-if predicate then-clause else-clause)
 	(cond (predicate then-clause)
@@ -65,3 +78,10 @@
 ; As such, the recursive call to sqrt-iter2 is evaluated and entered into
 ; before (new-if ...) can be evaluated.  Sqrt-iter2 then calls itself again
 ; and goes on until max recursion depth is reached.
+
+; Exercise 1.7
+; Redesign good enough to work with small numbers
+; I tested the above sqrt function on an arbitrarily small number .00000589
+; and a large value, 20 9s.  Windows calculator and my sqrt procedure have
+; very different answers to both.  After rewriting the procedure in the above manner,
+; the values became much closer together.
