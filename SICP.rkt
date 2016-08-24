@@ -101,3 +101,64 @@
 	
 ; Using most of the same functions from above, The cubeRoot procedure works well with small and very large
 ; numbers as well.
+
+; Exercise 1.9
+; The first function is recursive.  It calls inc on the return value of (+ (dec a) b)
+; which would in turn call (inc) again if a did not equal 0.  This would result in n=a number
+; of calls to inc, giving us (inc (inc (inc ...)))
+; The second function is iterative.  Every time the function is called, the values are changed
+; until a = 0 and we have the answer immediately.
+
+; Exercise 1.10
+;(define (A x y)
+;	(cond 
+;		((= y 0) 0)
+;		((= x 0) (* 2 y))
+;		((= y 1) 2)
+;		(else (A (- x 1)
+;			(A x (- y 1))))))
+	
+; (A 1 10) = 1024
+; (A 2 4) = 65536
+; (A 3 3) = 65536
+(define (f n) (A 0 n))
+(define (g n) (A 1 n))
+(define (h n) (A 2 n))
+
+; f(n) = 2n
+; g(n) = 2^n
+; h(n) = 2^2^2^2^...n
+
+; Exercise 1.11
+; Function f(n) =n if n<3 else f(n-1) + 2f(n-2) + 3f(n-3) if n>= 3
+; Write a procedure that computes f by means of a recursive and iterative process.
+
+; Recursive:
+(define (f n)
+	(cond
+		((< n 3) n)
+		(else (+ (f (- n 1)) (* 2 (f (- n 2))) (* 3 (f (- n 3)))))))
+		
+; Iterative:
+;;;;;;;;;;;;;;;;
+;;;KeepWorking;;
+;;;;;;;;;;;;;;;;
+
+; Exercise 1.12
+; Pascal's triangle
+(define (pascal row col)
+	(cond
+		((or (< row 0) (< col 0) (> col row)) -1) ;Error output
+		((or (= row 0) (= col 0) (= col row)) 1)
+		(else (+ (pascal (- row 1) col) (pascal (- row 1) (- col 1))))))
+		
+		
+; Exercise 1.13
+; Claim: Fib(n) is the closest integer to (phi^n)/(sqrt 5), phi = (1 + (sqrt 5))/2
+; Prove (phi^n - psi^n)/(sqrt 5) = Fib(n)
+; Base Case: Fib(0) = 0.  (phi^0 - psy^0)/(sqrt 5) = 0 OK
+; Choose k in N.  Assume Fib(k) = (phi^k - psi^k)/(sqrt 5), Fib(k-1) = (phi^(k-1) - psi(k-1))/(sqrt 5)
+; Show Fib(k+1) = (phi^(k+1) - psi^(k+1))/(sqrt 5)
+; Fib(k+1) = Fib(k) + Fib(k-1)
+; = (phi^k - psi^k)/(sqrt 5)  + (phi^(k-1) - psi(k-1))/(sqrt 5)
+; = (phi^k + phi^(k-1) -psi^k - psi^(k-1))/(sqrt 5)
