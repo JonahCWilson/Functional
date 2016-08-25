@@ -162,3 +162,44 @@
 ; Fib(k+1) = Fib(k) + Fib(k-1)
 ; = (phi^k - psi^k)/(sqrt 5)  + (phi^(k-1) - psi(k-1))/(sqrt 5)
 ; = (phi^k + phi^(k-1) -psi^k - psi^(k-1))/(sqrt 5)
+
+
+; Exercise 1.14
+; Will draw later
+
+; Exercise 1.15
+; a How many times is procedure p applied when (sine 12.15) is evaluated?
+; Procedure p gets called 5 times when 12.15 is evaluated.
+; b As a function of a, what is the order of growth when evaluating (sine a)
+; Every time sine recurs, it divides its argument by 3, so it would be logarithmic.
+
+; Exercise 1.16
+(define (even? n)
+		(= (mod n 2) 0))
+		
+(define (new-fast-expt x y)
+	(define (expt-iter a b n)
+		(cond
+			((= n 0) a)
+			((even? n) (expt-iter a (* b b) (/ n 2)))
+			(else (expt-iter (* b a) b (-n 1)))))
+	(expt-iter 1 x y))
+	
+; Exercise 1.17
+(define (double n) (+ n n))
+(define (halve n) (/ n 2))
+(define (* a b)
+	(cond
+		((= b 0) 0)
+		((even? b) (double (* a (halve b))))
+		(else (+ a (* a (- b 1))))))
+
+; Exercise 1.18		
+(define (log-multiply-iter total a b)
+	(cond
+		((= b 0) total)
+		((even? b) (log-multiply-iter total (double a) (halve b)))
+		(else (log-multiply-iter (+ a total) a (- b 1)))))
+		
+		
+	
